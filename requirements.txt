@@ -1,0 +1,25 @@
+# RakıBot AI Assistant - Python Dependencies
+# Core web framework and HTTP handling
+flask==2.3.3
+werkzeug==2.3.7
+requests==2.31.0
+
+# Web scraping and parsing
+beautifulsoup4==4.12.2
+
+# Scientific computing and data processing
+numpy==1.24.4
+pandas==2.0.3
+
+# Google services and authentication  
+gspread==5.12.0
+google-auth==2.23.4
+google-oauth2-tool==0.0.3
+
+# Natural language processing
+nltk==3.8.1
+
+# Python standard library extensions (built-in, no install needed)
+# os, sys, logging, webbrowser, threading, time, pathlib
+# re, random, typing, dataclasses, datetime, json
+# hashlib, pickle, functools, urllib.parse

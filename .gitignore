@@ -1,0 +1,168 @@
+# RakıBot AI Assistant - .gitignore
+# Generated cache files, logs, credentials and temporary data
+
+# === CREDENTIALS & SECRETS ===
+# Google service account credentials (contains private keys)
+credentials.json
+# Environment variables with API keys
+.env
+.env.local
+.env.production
+.env.staging
+# API keys and secrets
+api_keys.txt
+secrets.json
+config.local.json
+
+# === CACHE & TEMPORARY FILES ===
+# AI embedding cache files
+agh_embedding_cache.npy
+embedding_cache.npy
+*.npy
+# Web search cache directory
+web_cache/
+cache/
+# General cache directories
+*_cache/
+.cache/
+tmp/
+temp/
+
+# === LOG FILES ===
+# Application logs
+app.log
+*.log
+logs/
+*.log.*
+# Debug files
+debug.txt
+error.txt
+
+# === PYTHON SPECIFIC ===
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+# PyInstaller
+*.manifest
+*.spec
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+cover/
+# Virtual environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# === OLLAMA & AI MODELS ===
+# Local model files (these can be large)
+models/
+*.bin
+*.gguf
+*.ggml
+# Model downloads
+ollama_models/
+
+# === USER DATA & PERSONAL FILES ===
+# User conversation history
+user_history.json
+conversations/
+user_data/
+# Personal knowledge additions
+personal_knowledge.json
+my_*.json
+# Development notes
+notes.txt
+todo.txt
+dev_notes.md
+
+# === SYSTEM FILES ===
+# Operating system files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+# Windows
+desktop.ini
+
+# === DATABASE FILES ===
+# SQLite databases (if any)
+*.db
+*.sqlite
+*.sqlite3
+
+# === BACKUP FILES ===
+# Backup files
+*.bak
+*.backup
+*.old
+*_backup.*
+backup/
+
+# === DEPLOYMENT & DOCKER ===
+# Docker volumes and data
+docker-compose.override.yml
+.dockerignore.local
+# Deployment configs
+deploy/
+.deploy/
+# Production configs
+prod_config/
+
+# === LARGE FILES & DATASETS ===
+# Large training data or datasets
+datasets/
+training_data/
+# Large embedding files
+embeddings/
+vectors/
+
+# === DEVELOPMENT TOOLS ===
+# Jupyter notebooks checkpoints
+.ipynb_checkpoints/
+# Profiling data
+*.prof

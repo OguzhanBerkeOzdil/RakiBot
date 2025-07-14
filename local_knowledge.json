@@ -1,0 +1,144 @@
+{
+  "documents": [
+    {
+      "id": "doc-1",
+      "title": "AGH University Student Regulations §1.1 - General Provisions",
+      "content": "This regulation governs the rights and obligations of students studying at AGH University, their academic processes and discipline rules. Students must complete their enrollment renewal procedures within the specified periods. The regulation covers all undergraduate, graduate and doctorate students. Students must act in accordance with the academic calendar, complete course selection procedures on time and comply with the instructions of faculty members. The university conducts continuous improvement activities to improve the quality of education.",
+      "embedding": null,
+      "metadata": {"category": "academic", "importance": "high"}
+    },
+    {
+      "id": "doc-2", 
+      "title": "Exam and Evaluation System §2.1 - Detailed Description",
+      "content": "Exams are conducted in three categories: midterm exam, final exam and makeup exam. The grade is calculated as the weighted average of midterm exam (40%) and final exam (60%). The passing grade is 50 out of 100. Midterm exam dates are set between the 7th and 9th weeks from the beginning of the course. Final exams are held at the end of the semester, on the dates specified in the academic calendar. Makeup exams are organized only for students who fail the final exam. Separate evaluation criteria apply to project courses. Exam results are announced within 15 days at the latest.",
+      "embedding": null,
+      "metadata": {"category": "academic", "importance": "high"}
+    },
+    {
+      "id": "doc-3",
+      "title": "Attendance and Excuses §3.1 - Comprehensive Rules", 
+      "content": "Students must attend at least 70% of the classes. Excuse situations include illness, military service, natural disasters. Excuse petitions must be submitted to the dean's office during the relevant semester. A physician's report is required for illness excuse, a conscription notice for military service. Documents obtained from local administrations are accepted in case of natural disasters. If absenteeism exceeds 30%, the student is considered to have withdrawn from that course. Attendance requirement for laboratory courses is 80%. Special arrangements are made for students participating in student exchange programs.",
+      "embedding": null,
+      "metadata": {"category": "academic", "importance": "medium"}
+    },
+    {
+      "id": "doc-4",
+      "title": "Student Rights and Responsibilities §4.1 - Extended",
+      "content": "Students have the right to benefit from educational services. They can use campus facilities and participate in student clubs. They also have to comply with university rules and maintain academic integrity. They can benefit from library services 24 hours a day. Sports facilities and cafeterias are open to student service. Academic counseling service is provided to every student. Students can express their ideas freely, but must respect the rights of other students. Being environmentally conscious and protecting university property are among student responsibilities.",
+      "embedding": null,
+      "metadata": {"category": "rights", "importance": "high"}
+    },
+    {
+      "id": "doc-5",
+      "title": "Discipline Rules §5.1 - Detailed Penalty System",
+      "content": "Students' behaviors such as academic fraud, cheating on exams, plagiarism are within the scope of discipline rules. Penalties are applied as warning, reprimand, temporary suspension and definitive expulsion. When cheating is detected for the first time, a warning is given, and a reprimand penalty is given for the second time. Students who plagiarize are considered unsuccessful in that course. In case of physical violence, immediate suspension penalty is applied. Alcohol and substance use is strictly prohibited on campus. Students have the right to defense and appeal mechanisms are available.",
+      "embedding": null,
+      "metadata": {"category": "discipline", "importance": "high"}
+    },
+    {
+      "id": "doc-6", 
+      "title": "Scholarships and Financial Aid §6.1",
+      "content": "The university offers various scholarship opportunities to successful and needy students. Academic achievement scholarship is given to students with GPA 3.0 and above. Social aid scholarship is determined by evaluating family income status. Sports scholarship is granted to national team athletes and those who take an active role in university teams. With the part-time work program, students can earn pocket money by working on campus. A separate budget has been allocated for Erasmus and exchange programs. Scholarship applications are made at the beginning of each semester and results are announced within 30 days.",
+      "embedding": null,
+      "metadata": {"category": "financial", "importance": "medium"}
+    },
+    {
+      "id": "doc-7",
+      "title": "Technology and IT Services §7.1", 
+      "content": "Students can access free WiFi network and use internet throughout the campus. Computer laboratories are open weekdays 08:00-22:00, weekends 10:00-18:00. Each student is provided with an email account and cloud storage space. Access to course materials through the online course system is possible 24/7. Software licenses can be used free of charge for educational purposes. Technical support service is available during weekday business hours. Compliance with cyber security rules is mandatory.",
+      "embedding": null,
+      "metadata": {"category": "technology", "importance": "medium"}
+    },
+    {
+      "id": "doc-8",
+      "title": "Graduate Programs and Research §8.1",
+      "content": "Graduate programs include master's and doctoral degrees in various fields. Research activities are supervised by qualified faculty members. Students must complete coursework, comprehensive exams, and thesis requirements. Research funding is available through university grants and external sources. Graduate students can apply for teaching and research assistantships. International collaboration opportunities are actively promoted.",
+      "embedding": null,
+      "metadata": {"category": "academic", "importance": "medium"}
+    },
+    {
+      "id": "doc-9",
+      "title": "Student Services and Support §9.1",
+      "content": "The university provides comprehensive student support services including academic counseling, career guidance, mental health services, and disability support. The student affairs office coordinates various activities and events. International students receive special orientation and support services. Campus safety and security are maintained 24/7. Student feedback is regularly collected and acted upon to improve services.",
+      "embedding": null,
+      "metadata": {"category": "services", "importance": "medium"}
+    },
+    {
+      "id": "doc-10",
+      "title": "Academic Calendar and Procedures §10.1",
+      "content": "The academic year consists of fall and spring semesters with optional summer sessions. Registration periods, add/drop deadlines, and examination schedules are published in advance. Students must maintain good academic standing with minimum GPA requirements. Academic probation and dismissal policies are clearly defined. Grade appeals and academic integrity violations are handled through established procedures.",
+      "embedding": null,
+      "metadata": {"category": "academic", "importance": "high"}
+    },
+    {
+      "id": "doc-11",
+      "title": "Campus Life and Activities §11.1",
+      "content": "The university promotes active campus life through student organizations, cultural events, and recreational activities. Student clubs cover diverse interests including academic, cultural, sports, and community service. Annual events include orientation week, homecoming, graduation ceremonies, and various festivals. Campus facilities include dining services, bookstore, health center, and recreational facilities.",
+      "embedding": null,
+      "metadata": {"category": "campus", "importance": "low"}
+    },
+    {
+      "id": "doc-12",
+      "title": "International Programs §12.1",
+      "content": "The university offers various international programs including study abroad, exchange programs, and dual degree options. Partnerships with universities worldwide provide students with global learning opportunities. Language support services are available for international students. Cultural integration programs help international students adapt to campus life. International students must maintain valid visa status and comply with immigration regulations.",
+      "embedding": null,
+      "metadata": {"category": "international", "importance": "medium"}
+    },
+    {
+      "id": "doc-13",
+      "title": "Quality Assurance and Accreditation §13.1",
+      "content": "The university maintains high academic standards through continuous quality assurance processes. Programs are regularly reviewed and updated to meet industry standards. Faculty development programs ensure teaching excellence. Student learning outcomes are assessed and monitored. The university holds accreditation from recognized national and international bodies.",
+      "embedding": null,
+      "metadata": {"category": "quality", "importance": "medium"}
+    },
+    {
+      "id": "doc-14",
+      "title": "Environmental Sustainability §14.1",
+      "content": "The university is committed to environmental sustainability through green campus initiatives. Energy-efficient buildings, waste reduction programs, and sustainable transportation options are prioritized. Students and staff are encouraged to participate in environmental conservation efforts. Research in renewable energy and environmental sciences is actively supported.",
+      "embedding": null,
+      "metadata": {"category": "environment", "importance": "low"}
+    },
+    {
+      "id": "doc-15",
+      "title": "Alumni Relations and Career Services §15.1",
+      "content": "The university maintains strong connections with alumni through various programs and events. Career services provide job placement assistance, internship opportunities, and professional development workshops. Alumni mentorship programs connect current students with industry professionals. Career fairs and networking events are regularly organized.",
+      "embedding": null,
+      "metadata": {"category": "career", "importance": "medium"}
+    },
+    {
+      "id": "doc-16",
+      "title": "Research and Innovation §16.1",
+      "content": "The university promotes research excellence across all disciplines. Research centers and institutes focus on cutting-edge technologies and societal challenges. Faculty and students collaborate on innovative projects with industry partners. Intellectual property policies protect research outcomes and encourage commercialization of innovations.",
+      "embedding": null,
+      "metadata": {"category": "research", "importance": "medium"}
+    },
+    {
+      "id": "doc-17",
+      "title": "Health and Safety Regulations §17.1",
+      "content": "Campus health and safety are top priorities with comprehensive emergency procedures in place. Health services include medical care, vaccinations, and health education programs. Safety protocols cover laboratory safety, fire safety, and personal security. Regular safety drills and training sessions are conducted for all campus community members.",
+      "embedding": null,
+      "metadata": {"category": "safety", "importance": "high"}
+    },
+    {
+      "id": "doc-18",
+      "title": "Academic Integrity and Ethics §18.1",
+      "content": "The university upholds the highest standards of academic integrity and ethical conduct. Plagiarism detection systems are used to maintain originality in academic work. Ethics committees oversee research involving human subjects and animals. Training programs educate students and faculty about ethical responsibilities and professional conduct.",
+      "embedding": null,
+      "metadata": {"category": "ethics", "importance": "high"}
+    },
+    {
+      "id": "doc-19",
+      "title": "Diversity and Inclusion §19.1",
+      "content": "The university celebrates diversity and promotes inclusive practices throughout campus. Equal opportunity policies ensure fair treatment regardless of background, race, gender, or religion. Diversity programs support underrepresented groups and foster cross-cultural understanding. Bias reporting systems address discrimination and harassment concerns.",
+      "embedding": null,
+      "metadata": {"category": "diversity", "importance": "high"}
+    },
+    {
+      "id": "doc-20",
+      "title": "Continuing Education and Lifelong Learning §20.1",
+      "content": "The university offers continuing education programs for working professionals and adult learners. Executive education, professional certification, and skills development courses are available. Online and hybrid learning options provide flexibility for non-traditional students. Community outreach programs extend educational resources to the broader public.",
+      "embedding": null,
+      "metadata": {"category": "continuing", "importance": "low"}
+    }
+  ]
+}

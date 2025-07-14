@@ -1,0 +1,1745 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RakıBot - AI Assistant</title>
+    <link rel="icon" type="image/png" href="/static/RakıBot_logo_new.png">
+    <style>
+        :root {
+            /* New Color Palette - Sunflower & Modern */
+            --primary-gold: #FFD274;       /* (255, 210, 116) - Main background tone */
+            --accent-gold: #FFD375;        /* (255, 211, 117) - Highlights & Sun */
+            --warm-gold: #FFD275;          /* (255, 210, 117) - Warm accents */
+            --bright-gold: #FFD374;        /* (255, 211, 116) - Bright elements */
+            --deep-gold: #FFD273;          /* (255, 210, 115) - Deeper tones */
+            --button-gold: #F2C14E;        /* Buttons & Interactive */
+            --plant-green: #C9D274;        /* Plant/natural elements */
+            --robot-teal: #2E8B8B;         /* Robot body & tech elements */
+            --text-dark: #0F3D3E;          /* Dark text & borders */
+            --text-light: #2C4A4B;         /* Secondary text */
+            --white-soft: #FEFCF7;         /* Soft white */
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: url('/static/RakıBot_bg_new.png') center/cover no-repeat fixed;
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            height: 100vh;
+            overflow: hidden;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .chat-container {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(254, 252, 247, 0.92);
+            backdrop-filter: blur(15px);
+            box-shadow: 0 8px 32px rgba(15, 61, 62, 0.2);
+            border: 1px solid rgba(255, 210, 116, 0.3);
+        }
+        
+        .header {
+            background: linear-gradient(135deg, var(--robot-teal) 0%, var(--plant-green) 50%, var(--accent-gold) 100%);
+            color: var(--text-dark);
+            padding: 20px 30px;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(15, 61, 62, 0.3);
+            position: relative;
+            backdrop-filter: blur(10px);
+        }
+        
+        .header h1 {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin: 0;
+            font-weight: 700;
+            text-shadow: 0 2px 4px rgba(255, 255, 255, 0.3);
+        }
+        
+        .header h1::before {
+            content: '';
+            width: 60px;
+            height: 60px;
+            background: url('/static/RakıBot_logo_new.png') center/contain no-repeat;
+            display: inline-block;
+            filter: drop-shadow(0 2px 8px rgba(0,0,0,0.2));
+        }
+        
+        .header-controls {
+            position: absolute;
+            top: 20px;
+            left: 30px;
+            right: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .left-controls {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+        
+        .right-controls {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        
+        .chat-mode-selector {
+            display: flex;
+            background: rgba(15, 61, 62, 0.15);
+            border-radius: 25px;
+            border: 2px solid var(--primary-gold);
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .mode-btn {
+            padding: 8px 16px;
+            background: transparent;
+            border: none;
+            color: var(--text-dark);
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+        
+        .mode-btn.active {
+            background: var(--button-gold);
+            color: var(--text-dark);
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .mode-btn:hover:not(.active) {
+            background: rgba(255, 210, 116, 0.3);
+        }
+        
+        .profile-select {
+            background: var(--white-soft);
+            color: var(--text-dark);
+            border: 2px solid var(--primary-gold);
+            padding: 6px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            cursor: pointer;
+            outline: none;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .profile-select option {
+            background: var(--white-soft);
+            color: var(--text-dark);
+        }
+        
+        .web-search-toggle {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--primary-gold);
+            padding: 8px 12px;
+            border-radius: 20px;
+            border: 2px solid var(--robot-teal);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: var(--text-dark);
+            font-weight: 600;
+        }
+        
+        .web-search-toggle:hover {
+            background: var(--robot-teal);
+            color: var(--white-soft);
+            transform: translateY(-1px);
+        }
+        
+        .web-search-toggle.active {
+            background: var(--plant-green);
+            border-color: var(--robot-teal);
+            color: var(--white-soft);
+            box-shadow: 0 4px 12px rgba(46, 139, 139, 0.3);
+        }
+        
+        .toggle-switch {
+            width: 40px;
+            height: 20px;
+            background: rgba(255, 210, 116, 0.3);
+            border-radius: 10px;
+            position: relative;
+            transition: background 0.3s ease;
+        }
+        
+        .toggle-switch.active {
+            background: var(--robot-teal);
+        }
+        
+        .toggle-switch::before {
+            content: '';
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            background: white;
+            border-radius: 50%;
+            top: 2px;
+            left: 2px;
+            transition: transform 0.3s ease;
+        }
+        
+        .toggle-switch.active::before {
+            transform: translateX(20px);
+        }
+        
+        .web-search-label {
+            color: white;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .header-btn {
+            background: var(--primary-gold);
+            border: 2px solid var(--robot-teal);
+            color: var(--text-dark);
+            padding: 8px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-weight: 600;
+        }
+        
+        .header-btn:hover {
+            background: var(--robot-teal);
+            color: var(--white-soft);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        
+        .header h1 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .header p {
+            opacity: 0.9;
+            font-size: 14px;
+        }
+        
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            background: linear-gradient(135deg, var(--white-soft) 0%, rgba(255, 210, 116, 0.1) 100%);
+        }
+        
+        .message {
+            margin-bottom: 20px;
+            animation: slideIn 0.3s ease-out;
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .message-user {
+            text-align: right;
+        }
+        
+        .message-bot {
+            text-align: left;
+        }
+        
+        .message-bubble {
+            display: inline-block;
+            max-width: 70%;
+            padding: 15px 20px;
+            border-radius: 20px;
+            word-wrap: break-word;
+            position: relative;
+        }
+        
+        .message-user .message-bubble {
+            background: linear-gradient(135deg, var(--robot-teal), var(--plant-green));
+            color: var(--text-dark);
+            border-bottom-right-radius: 5px;
+            box-shadow: 0 4px 12px rgba(46, 139, 139, 0.2);
+        }
+        
+        /* Enhanced Response Formatting */
+        .message-bot .message-bubble {
+            background: var(--white-soft);
+            color: var(--text-dark);
+            border: 2px solid var(--primary-gold);
+            border-bottom-left-radius: 5px;
+            box-shadow: 0 4px 16px rgba(255, 210, 116, 0.2);
+            line-height: 1.6;
+        }
+        
+        .message-bot .message-bubble p {
+            margin: 8px 0;
+            color: #2c3e50;
+        }
+        
+        .message-bot .message-bubble strong {
+            color: #1a1a1a;
+            font-weight: 600;
+            background: rgba(255, 193, 7, 0.15);
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+        
+        .response-section {
+            margin: 10px 0;
+            padding: 12px;
+            border-radius: 8px;
+            border-left: 3px solid;
+        }
+        
+        .confidence-section {
+            background: rgba(40, 167, 69, 0.1);
+            border-left-color: #28a745;
+        }
+        
+        .answer-section {
+            background: rgba(23, 162, 184, 0.1);
+            border-left-color: #17a2b8;
+        }
+        
+        .reasoning-section {
+            background: rgba(255, 193, 7, 0.1);
+            border-left-color: #ffc107;
+        }
+        
+        .calculation-section {
+            background: rgba(220, 53, 69, 0.1);
+            border-left-color: #dc3545;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .emoji-icon {
+            font-size: 1.1em;
+            margin-right: 5px;
+        }
+        
+        .section-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #495057;
+        }
+        
+        .message-meta {
+            font-size: 11px;
+            color: #6b7280;
+            margin-top: 5px;
+        }
+        
+        .confidence-bar {
+            width: 100%;
+            height: 4px;
+            background: #e5e7eb;
+            border-radius: 2px;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+        
+        .confidence-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ef4444, #f59e0b, #10b981);
+            border-radius: 2px;
+            transition: width 0.5s ease;
+        }
+        
+        .sources {
+            margin-top: 10px;
+            font-size: 12px;
+            color: #6b7280;
+        }
+        
+        .source-tag {
+            display: inline-block;
+            background: #f3f4f6;
+            padding: 2px 8px;
+            border-radius: 10px;
+            margin: 2px;
+            color: #4b5563;
+        }
+        
+        .web-source-link {
+            display: inline-block;
+            color: #3b82f6 !important;
+            text-decoration: underline;
+            margin-right: 10px;
+            font-size: 11px;
+            padding: 2px 6px;
+            background: #eff6ff;
+            border-radius: 6px;
+            border: 1px solid #dbeafe;
+            transition: all 0.2s ease;
+        }
+        
+        .web-source-link:hover {
+            background: #dbeafe;
+            color: #1d4ed8 !important;
+            text-decoration: none;
+        }
+        
+        .chunk-info {
+            margin-top: 8px;
+            font-size: 11px;
+            color: #9ca3af;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .chunk-badge {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 2px 6px;
+            border-radius: 8px;
+            font-size: 10px;
+            font-weight: 500;
+        }
+        
+        .chunk-quality {
+            margin-left: 8px;
+            padding: 2px 6px;
+            border-radius: 6px;
+            font-size: 10px;
+            font-weight: 500;
+        }
+        
+        .chunk-quality.excellent, .chunk-quality[data-quality="🌟 Mükemmel"] { background: #059669; color: white; }
+        .chunk-quality.very-good, .chunk-quality[data-quality="✨ Çok İyi"] { background: #0d9488; color: white; }
+        .chunk-quality.good, .chunk-quality[data-quality="👍 İyi"] { background: #0891b2; color: white; }
+        .chunk-quality.basic, .chunk-quality[data-quality="📝 Temel"] { background: #7c3aed; color: white; }
+        .chunk-quality.web-enhanced, .chunk-quality[data-quality="🌐 Web Destekli"] { background: #10b981; color: white; animation: pulse 2s infinite; }
+        .chunk-quality.insufficient, .chunk-quality[data-quality="⚠️ Yetersiz"] { background: #ef4444; color: white; }
+        .chunk-quality.no-info { background: #6b7280; color: white; }
+        .chunk-quality.privacy, .chunk-quality[data-quality="Gizlilik"] { background: #f59e0b; color: white; }
+        .chunk-quality.general, .chunk-quality[data-quality="💭 Genel Bilgi"] { background: #6b7280; color: white; }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        
+        .processing-time {
+            color: #10b981;
+            font-size: 10px;
+            margin-left: 5px;
+        }
+        
+        .web-enhanced-indicator {
+            background: linear-gradient(45deg, #10b981, #059669);
+            color: white;
+            padding: 2px 6px;
+            border-radius: 8px;
+            font-size: 9px;
+            font-weight: 600;
+            display: inline-block;
+            margin-left: 5px;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+        
+        @keyframes glow {
+            from { box-shadow: 0 0 5px #10b981; }
+            to { box-shadow: 0 0 10px #10b981, 0 0 15px #059669; }
+        }
+        
+        .search-strategy {
+            font-size: 9px;
+            color: #6366f1;
+            font-weight: 500;
+            margin-left: 8px;
+        }
+        
+        .response-type {
+            display: inline-block;
+            padding: 2px 6px;
+            border-radius: 6px;
+            font-size: 10px;
+            font-weight: 500;
+            margin-left: 5px;
+        }
+        
+        .response-type.document-based {
+            background: #10b981;
+            color: white;
+        }
+        
+        .response-type.general-knowledge {
+            background: #f59e0b;
+            color: white;
+        }
+        
+        .response-type.privacy-protection {
+            background: #dc2626;
+            color: white;
+        }
+        
+        .input-area {
+            padding: 20px;
+            background: linear-gradient(135deg, var(--white-soft) 0%, rgba(255, 210, 116, 0.1) 100%);
+            border-top: 2px solid var(--primary-gold);
+        }
+        
+        .input-container {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .message-input-wrapper {
+            display: flex;
+            gap: 10px;
+            align-items: flex-end;
+        }
+        
+        .input-field {
+            flex: 1;
+            min-height: 44px;
+            max-height: 120px;
+            padding: 12px 16px;
+            border: 2px solid var(--primary-gold);
+            border-radius: 22px;
+            font-size: 14px;
+            resize: none;
+            outline: none;
+            transition: all 0.2s ease;
+            font-family: inherit;
+            background: var(--white-soft);
+            color: var(--text-dark);
+        }
+        
+        .input-field:focus {
+            border-color: var(--robot-teal);
+            box-shadow: 0 0 0 3px rgba(46, 139, 139, 0.1);
+        }
+        
+        .send-button {
+            width: 44px;
+            height: 44px;
+            background: linear-gradient(135deg, var(--robot-teal), var(--plant-green));
+            border: none;
+            border-radius: 50%;
+            box-shadow: 0 4px 12px rgba(46, 139, 139, 0.3);
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            flex-shrink: 0;
+        }
+        
+        .send-button:hover:not(:disabled) {
+            transform: scale(1.05);
+            box-shadow: 0 6px 16px rgba(46, 139, 139, 0.4);
+        }
+        
+        .send-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .typing-indicator {
+            display: none;
+            padding: 15px 20px;
+            background: var(--white-soft);
+            border: 1px solid var(--light-gray);
+            border-radius: 20px;
+            border-bottom-left-radius: 5px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            max-width: 70%;
+        }
+        
+        .typing-dots {
+            display: flex;
+            gap: 4px;
+        }
+        
+        .dot {
+            width: 8px;
+            height: 8px;
+            background: #6b7280;
+            border-radius: 50%;
+            animation: typing 1.5s infinite;
+        }
+        
+        .dot:nth-child(2) { animation-delay: 0.2s; }
+        .dot:nth-child(3) { animation-delay: 0.4s; }
+        
+        @keyframes typing {
+            0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+            30% { transform: translateY(-10px); opacity: 1; }
+        }
+        
+        .welcome-message {
+            text-align: center;
+            padding: 40px 20px;
+            color: #6b7280;
+        }
+        
+        .welcome-message h2 {
+            color: #1f2937;
+            margin-bottom: 10px;
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 30px;
+        }
+        
+        .feature {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid #e5e7eb;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .feature:hover {
+            border-color: var(--robot-teal);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .feature-icon {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        
+        .suggested-question-btn {
+            background: #f3f4f6;
+            border: 1px solid #d1d5db;
+            color: #374151;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 13px;
+            transition: all 0.2s ease;
+            text-align: center;
+            white-space: nowrap;
+            max-width: 300px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .suggested-question-btn:hover {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+            transform: translateY(-1px);
+        }
+        
+        .error-message {
+            background: #fef2f2;
+            color: #dc2626;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #fecaca;
+        }
+        
+        @media (max-width: 768px) {
+            .chat-container {
+                height: 100vh;
+                max-width: 100%;
+            }
+            
+            .header {
+                padding: 15px 20px;
+            }
+            
+            .header-controls {
+                position: relative;
+                top: auto;
+                right: auto;
+                justify-content: center;
+                margin-top: 10px;
+            }
+            
+            .header h1 {
+                font-size: 20px;
+            }
+            
+            .message-bubble {
+                max-width: 85%;
+            }
+            
+            .input-area {
+                padding: 15px;
+            }
+            
+            .features {
+                grid-template-columns: 1fr;
+            }
+            
+            .chunk-info {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 3px;
+            }
+        }
+        
+        /* Profile Modal Styles */
+        .profile-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+        }
+        
+        .profile-modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            max-width: 450px;
+            width: 90%;
+            text-align: center;
+            animation: modalSlideIn 0.3s ease-out;
+        }
+        
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .profile-modal h3 {
+            color: #4f46e5;
+            margin-bottom: 10px;
+            font-size: 24px;
+        }
+        
+        .profile-modal p {
+            color: #6b7280;
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+        
+        .profile-form {
+            text-align: left;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            color: #374151;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+        
+        .profile-input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e5e7eb;
+            border-radius: 10px;
+            font-size: 14px;
+            background: white;
+            transition: border-color 0.2s ease;
+        }
+        
+        .profile-input:focus {
+            outline: none;
+            border-color: #4f46e5;
+        }
+        
+        .form-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 25px;
+        }
+        
+        .save-btn {
+            flex: 1;
+            background: linear-gradient(90deg, #4f46e5, #7c3aed);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 10px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+        
+        .save-btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        .skip-btn {
+            background: #f3f4f6;
+            color: #6b7280;
+            border: 1px solid #d1d5db;
+            padding: 12px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .skip-btn:hover {
+            background: #e5e7eb;
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <header class="header">
+            <div class="header-controls">
+                <div class="left-controls">
+                    <div class="chat-mode-selector">
+                        <button class="mode-btn active" id="normalMode" onclick="setChatMode('normal')">
+                            😊 Normal Chat
+                        </button>
+                        <button class="mode-btn" id="aghMode" onclick="setChatMode('agh')">
+                            📚 AGH Expert
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="right-controls">
+                    <div class="web-search-toggle" id="webSearchToggle" onclick="toggleWebSearch()">
+                        <span class="web-search-label">Web Search</span>
+                        <div class="toggle-switch active" id="toggleSwitch"></div>
+                    </div>
+                    <button class="header-btn" onclick="clearChat()" title="💬 Clear chat history only (conversation memory + on-screen messages). System stays active.">
+                        🗑️ Clear
+                    </button>
+                    <button class="header-btn" onclick="refreshPage()" title="🔄 Reload entire page. System restarts, all data resets.">
+                        🔄 Refresh
+                    </button>
+                </div>
+            </div>
+            <h1>RakıBot AI Assistant</h1>
+            <p>Developed by Oğuzhan Berke Özdil | Powered by Gemma 3</p>
+        </header>
+        
+        <div class="chat-messages" id="chatMessages">
+            <!-- Normal Chat Welcome -->
+            <div class="welcome-message" id="normalWelcome">
+                <h2>🧠 Hello! I'm RakıBot AI Assistant</h2>
+                <p>I can help you with creative analysis and intelligent conversations</p>
+                
+                <div class="features">
+                    <div class="feature" onclick="askQuestion('What is 2+2 and why?')">
+                        <div class="feature-icon">🧮</div>
+                        <h3>Mathematics</h3>
+                        <p>Mathematical problems</p>
+                    </div>
+                    <div class="feature" onclick="askQuestion('Where is Japan?')">
+                        <div class="feature-icon">🌍</div>
+                        <h3>Geography</h3>
+                        <p>Questions about the world</p>
+                    </div>
+                    <div class="feature" onclick="askQuestion('How does artificial intelligence work?')">
+                        <div class="feature-icon">🤖</div>
+                        <h3>Technology</h3>
+                        <p>Technical topics</p>
+                    </div>
+                    <div class="feature" onclick="askQuestion('Who are you?')">
+                        <div class="feature-icon">💬</div>
+                        <h3>Chat</h3>
+                        <p>General conversation</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- AGH Expert Welcome -->
+            <div class="welcome-message" id="aghWelcome" style="display: none;">
+                <h2>🔧 AGH Expert Mode - Documentation Expert</h2>
+                <p>I answer questions about university regulations and student affairs</p>
+                
+                <!-- AGH Suggested Questions -->
+                <div style="margin-top: 30px;">
+                    <h3 style="color: #1f2937; margin-bottom: 15px;">📝 Suggested Questions</h3>
+                    <div id="agh-suggested-questions" style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;">
+                        <!-- Questions will be loaded dynamically -->
+                    </div>
+                </div>
+            </div>
+            
+            <div class="typing-indicator" id="typingIndicator">
+                <div class="typing-dots">
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="input-area">
+            <div class="input-container">
+                <div class="message-input-wrapper">
+                    <textarea 
+                        id="messageInput" 
+                        class="input-field" 
+                        placeholder="Sorunuzu yazın... (Web Search aktif)"
+                        rows="1"
+                    ></textarea>
+                    <button id="sendButton" class="send-button" onclick="sendMessage()">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let messageHistory = [];
+        
+        // Web search toggle handler
+        document.getElementById('webSearchToggle').addEventListener('change', function() {
+            const input = document.getElementById('messageInput');
+            if (this.checked) {
+                input.placeholder = "Sorunuzu yazın... (Web Search aktif)";
+            } else {
+                input.placeholder = "Sorunuzu yazın... (Web Search kapalı)";
+            }
+        });
+        
+        // Auto-resize textarea
+        document.getElementById('messageInput').addEventListener('input', function() {
+            this.style.height = 'auto';
+            this.style.height = Math.min(this.scrollHeight, 120) + 'px';
+        });
+        
+        // Send message on Enter (Shift+Enter for new line)
+        document.getElementById('messageInput').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
+        
+        function askQuestion(question) {
+            document.getElementById('messageInput').value = question;
+            sendMessage();
+        }
+        
+        async function sendMessage() {
+            const input = document.getElementById('messageInput');
+            const sendButton = document.getElementById('sendButton');
+            const webSearchToggle = document.getElementById('webSearchToggle');
+            const message = input.value.trim();
+            
+            if (!message) return;
+            
+            // Get web search preference
+            const enableWebSearch = webSearchToggle.checked;
+            
+            // Disable input
+            input.disabled = true;
+            sendButton.disabled = true;
+            
+            // Add user message
+            addMessage(message, 'user');
+            input.value = '';
+            input.style.height = 'auto';
+            
+            // Show typing indicator
+            showTyping();
+            
+            try {
+                console.log('Sending request to /api/chat with message:', message, 'Web search:', enableWebSearch);
+                const response = await fetch('/api/chat', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ 
+                        message: message,
+                        enable_web_search: enableWebSearch
+                    })
+                });
+                
+                console.log('Response status:', response.status);
+                console.log('Response ok:', response.ok);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                console.log('📥 Full Response Data:', JSON.stringify(data, null, 2));
+                console.log('📝 Answer field:', data.answer);
+                console.log('🎯 Mode field:', data.mode);
+                console.log('📊 Confidence field:', data.confidence_score);
+                console.log('📚 Sources field:', data.sources);
+                
+                hideTyping();
+                
+                if (data && data.answer && data.answer.trim()) {
+                    console.log('✅ Adding bot message with answer:', data.answer.substring(0, 100));
+                    addBotMessage(data); // Pass the full data object
+                } else if (data && data.error) {
+                    console.log('❌ API returned error:', data.error);
+                    addErrorMessage(data.error);
+                } else {
+                    console.log('⚠️ Invalid response format:', data);
+                    console.log('⚠️ Data keys:', Object.keys(data || {}));
+                    addErrorMessage('Sunucudan geçersiz yanıt alındı');
+                }
+                
+            } catch (error) {
+                hideTyping();
+                console.error('Detailed error:', error);
+                console.error('Error name:', error.name);
+                console.error('Error message:', error.message);
+                
+                if (error.name === 'SyntaxError') {
+                    addErrorMessage('Sunucudan geçersiz veri formatı alındı');
+                } else if (error.name === 'TypeError') {
+                    addErrorMessage('Ağ bağlantısı sorunu. İnternet bağlantınızı kontrol edin.');
+                } else {
+                    addErrorMessage(`Hata: ${error.message}`);
+                }
+            } finally {
+                // Re-enable input
+                input.disabled = false;
+                sendButton.disabled = false;
+                input.focus();
+            }
+        }
+        
+        function addMessage(content, type) {
+            const messagesContainer = document.getElementById('chatMessages');
+            const normalWelcome = document.getElementById('normalWelcome');
+            const aghWelcome = document.getElementById('aghWelcome');
+            
+            // Hide both welcome messages on first interaction
+            if (normalWelcome) {
+                normalWelcome.style.display = 'none';
+            }
+            if (aghWelcome) {
+                aghWelcome.style.display = 'none';
+            }
+            
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message message-${type}`;
+            
+            const bubble = document.createElement('div');
+            bubble.className = 'message-bubble';
+            bubble.textContent = content;
+            
+            const meta = document.createElement('div');
+            meta.className = 'message-meta';
+            meta.textContent = new Date().toLocaleTimeString('tr-TR');
+            
+            messageDiv.appendChild(bubble);
+            messageDiv.appendChild(meta);
+            
+            messagesContainer.appendChild(messageDiv);
+            scrollToBottom();
+        }
+        
+        function addBotMessage(response) {
+            // Handle both string and object responses
+            if (typeof response === 'string') {
+                response = { answer: response };
+            }
+            
+            if (!response || !response.answer) {
+                console.error('Invalid response object:', response);
+                addErrorMessage('Geçersiz yanıt formatı');
+                return;
+            }
+            
+            const messagesContainer = document.getElementById('chatMessages');
+            const normalWelcome = document.getElementById('normalWelcome');
+            const aghWelcome = document.getElementById('aghWelcome');
+            
+            // Hide both welcome messages
+            if (normalWelcome) {
+                normalWelcome.style.display = 'none';
+            }
+            if (aghWelcome) {
+                aghWelcome.style.display = 'none';
+            }
+            
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'message message-bot';
+            
+            const bubble = document.createElement('div');
+            bubble.className = 'message-bubble';
+            
+            // Format answer with markdown-style bold - safely
+            let formattedAnswer = response.answer;
+            try {
+                formattedAnswer = response.answer.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+            } catch (e) {
+                console.error('Error formatting answer:', e);
+            }
+            bubble.innerHTML = formattedAnswer;
+            
+            // Confidence bar (API returns confidence_score, not confidence)
+            const confidence = response.confidence_score || response.confidence || 0;
+            if (confidence > 0) {
+                const confidenceBar = document.createElement('div');
+                confidenceBar.className = 'confidence-bar';
+                
+                const confidenceFill = document.createElement('div');
+                confidenceFill.className = 'confidence-fill';
+                confidenceFill.style.width = `${confidence * 100}%`;
+                
+                confidenceBar.appendChild(confidenceFill);
+                bubble.appendChild(confidenceBar);
+            }
+            
+            // Sources (Enhanced display for both Normal and AGH modes)
+            if (response.sources && response.sources.length > 0) {
+                const sourcesDiv = document.createElement('div');
+                sourcesDiv.className = 'sources';
+                
+                const sourcesLabel = document.createElement('div');
+                sourcesLabel.textContent = '📚 Information Sources:';
+                sourcesLabel.style.cssText = 'font-weight: 600; color: #4a5568; margin-bottom: 8px; font-size: 12px;';
+                sourcesDiv.appendChild(sourcesLabel);
+                
+                // Handle both string and array sources
+                let sourcesText = '';
+                if (Array.isArray(response.sources)) {
+                    sourcesText = response.sources.join(', ');
+                } else {
+                    sourcesText = response.sources;
+                }
+                
+                const sourcesType = response.sources_type || 'document'; // Default to document if not specified
+                const chatMode = document.querySelector('.mode-btn.active')?.textContent?.trim() || 'Normal';
+                
+                // Debug log for troubleshooting
+                console.log('🔍 Sources Debug:', {
+                    originalSources: response.sources,
+                    sourcesText: sourcesText,
+                    sourcesType: sourcesType,
+                    chatMode: chatMode,
+                    web_source_urls: response.web_source_urls,
+                    hasHttpInSources: sourcesText.includes('http'),
+                    isSourcesArray: Array.isArray(response.sources)
+                });
+                
+                if (sourcesType === 'web' || sourcesText.includes('http')) {
+                    // Handle web search sources as clickable links
+                    let urlMatches = response.web_source_urls || []; // Use new web_source_urls first
+                    
+                    // If no web_source_urls, fallback to parsing from sources text
+                    if (!urlMatches || urlMatches.length === 0) {
+                        urlMatches = sourcesText.match(/https?:\/\/[^\s,]+/g) || [];
+                    }
+                    
+                    if (urlMatches && urlMatches.length > 0) {
+                        const webSourcesContainer = document.createElement('div');
+                        webSourcesContainer.style.cssText = 'margin-top: 8px; padding: 10px; background: rgba(59, 130, 246, 0.05); border-radius: 8px; border-left: 3px solid #3b82f6;';
+                        
+                        const webLabel = document.createElement('div');
+                        webLabel.textContent = `🌐 Web Search Results (${urlMatches.length} sources found):`;
+                        webLabel.style.cssText = 'font-size: 11px; color: #3b82f6; font-weight: 600; margin-bottom: 6px;';
+                        webSourcesContainer.appendChild(webLabel);
+                        
+                        urlMatches.forEach((url, index) => {
+                            const linkContainer = document.createElement('div');
+                            linkContainer.style.cssText = 'margin: 4px 0;';
+                            
+                            const linkElement = document.createElement('a');
+                            linkElement.href = url;
+                            linkElement.target = '_blank';
+                            linkElement.rel = 'noopener noreferrer';
+                            linkElement.className = 'web-source-link';
+                            linkElement.style.cssText = 'color: #3b82f6; text-decoration: none; padding: 4px 8px; background: rgba(59, 130, 246, 0.1); border-radius: 4px; font-size: 10px; display: inline-block; margin-right: 6px; transition: all 0.2s ease;';
+                            linkElement.onmouseover = () => linkElement.style.background = 'rgba(59, 130, 246, 0.2)';
+                            linkElement.onmouseout = () => linkElement.style.background = 'rgba(59, 130, 246, 0.1)';
+                            
+                            // Extract domain name for better display
+                            const domain = url.replace(/^https?:\/\//, '').split('/')[0];
+                            linkElement.textContent = `🔗 ${domain}`;
+                            linkContainer.appendChild(linkElement);
+                            webSourcesContainer.appendChild(linkContainer);
+                        });
+                        
+                        sourcesDiv.appendChild(webSourcesContainer);
+                    } else {
+                        // Fallback for web sources without URLs
+                        const webSourcesContainer = document.createElement('div');
+                        webSourcesContainer.style.cssText = 'margin-top: 8px; padding: 8px; background: rgba(59, 130, 246, 0.05); border-radius: 6px;';
+                        webSourcesContainer.innerHTML = `<span style="color: #3b82f6; font-size: 11px;">🌐 ${sourcesText}</span>`;
+                        sourcesDiv.appendChild(webSourcesContainer);
+                    }
+                } else {
+                    // Handle document sources (AGH mode or knowledge base)
+                    const docSourcesContainer = document.createElement('div');
+                    docSourcesContainer.style.cssText = 'margin-top: 8px; padding: 8px; background: rgba(16, 185, 129, 0.05); border-radius: 6px; border-left: 3px solid #10b981;';
+                    
+                    const docLabel = document.createElement('div');
+                    docLabel.textContent = chatMode === 'AGH' ? '📖 AGH Document References:' : '📚 Knowledge Base Sources:';
+                    docLabel.style.cssText = 'font-size: 11px; color: #10b981; font-weight: 600; margin-bottom: 4px;';
+                    docSourcesContainer.appendChild(docLabel);
+                    
+                    const sourceTag = document.createElement('span');
+                    sourceTag.className = 'source-tag';
+                    sourceTag.style.cssText = 'color: #047857; font-size: 10px; background: rgba(16, 185, 129, 0.1); padding: 2px 6px; border-radius: 3px;';
+                    sourceTag.textContent = sourcesText;
+                    docSourcesContainer.appendChild(sourceTag);
+                    sourcesDiv.appendChild(docSourcesContainer);
+                }
+                
+                bubble.appendChild(sourcesDiv);
+            }
+            
+            // Chunk information
+            if (response.chunks_used !== undefined || response.chunk_info) {
+                const chunkDiv = document.createElement('div');
+                chunkDiv.className = 'chunk-info';
+                
+                if (response.chunks_used > 0) {
+                    const chunkBadge = document.createElement('span');
+                    chunkBadge.className = 'chunk-badge';
+                    chunkBadge.textContent = `${response.chunks_used} chunk kullanıldı`;
+                    chunkDiv.appendChild(chunkBadge);
+                    
+                    // Add chunk quality indicator
+                    if (response.chunk_quality) {
+                        const qualitySpan = document.createElement('span');
+                        const qualityClass = response.chunk_quality === 'Mükemmel' ? 'excellent' :
+                                           response.chunk_quality === 'Çok İyi' ? 'very-good' :
+                                           response.chunk_quality === 'İyi' ? 'good' :
+                                           response.chunk_quality === 'Temel' ? 'basic' :
+                                           response.chunk_quality === 'Yetersiz' ? 'insufficient' :
+                                           response.chunk_quality === 'Bilgi Yok' ? 'no-info' :
+                                           response.chunk_quality === 'Gizlilik' ? 'privacy' : 'general';
+                        qualitySpan.className = `chunk-quality ${qualityClass}`;
+                        qualitySpan.textContent = response.chunk_quality;
+                        chunkDiv.appendChild(qualitySpan);
+                    }
+                    
+                    // Show chunk bonus if exists
+                    if (response.chunk_bonus && response.chunk_bonus > 0) {
+                        const bonusSpan = document.createElement('span');
+                        bonusSpan.style.fontSize = '9px';
+                        bonusSpan.style.color = '#059669';
+                        bonusSpan.style.marginLeft = '5px';
+                        bonusSpan.textContent = `+${Math.round(response.chunk_bonus * 100)}%`;
+                        chunkDiv.appendChild(bonusSpan);
+                    }
+                } else {
+                    chunkDiv.innerHTML = '💡 Genel AI bilgisi';
+                }
+                
+                // Response type indicator
+                if (response.response_type) {
+                    const typeSpan = document.createElement('span');
+                    typeSpan.className = `response-type ${response.response_type}`;
+                    const typeText = response.response_type === 'document_based' ? 'Belge tabanlı' :
+                                   response.response_type === 'privacy_protection' ? 'Gizlilik koruması' : 'Genel bilgi';
+                    typeSpan.textContent = typeText;
+                    chunkDiv.appendChild(typeSpan);
+                }
+                
+                bubble.appendChild(chunkDiv);
+            }
+            
+            const meta = document.createElement('div');
+            meta.className = 'message-meta';
+            const responseTime = response.response_time || 'N/A';
+            
+            // Add Input Token Count for AGH mode only (like original AGH expert)
+            let metaContent = `
+                ${response.timestamp || new Date().toLocaleTimeString('tr-TR')} • 
+                Güven: %${Math.round(confidence * 100)} • 
+                Yanıt süresi: ${responseTime}
+            `;
+            
+            // Add token count for AGH mode only
+            if (currentChatMode === 'agh' && response.token_count) {
+                metaContent += ` • Input Token Count: ${response.token_count}`;
+            }
+            
+            meta.innerHTML = metaContent;
+            
+            messageDiv.appendChild(bubble);
+            messageDiv.appendChild(meta);
+            
+            messagesContainer.appendChild(messageDiv);
+            scrollToBottom();
+        }
+        
+        function addErrorMessage(error) {
+            const messagesContainer = document.getElementById('chatMessages');
+            
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'error-message';
+            errorDiv.textContent = `❌ ${error}`;
+            
+            messagesContainer.appendChild(errorDiv);
+            scrollToBottom();
+        }
+        
+        function showTyping() {
+            document.getElementById('typingIndicator').style.display = 'block';
+            scrollToBottom();
+        }
+        
+        function hideTyping() {
+            document.getElementById('typingIndicator').style.display = 'none';
+        }
+        
+        function scrollToBottom() {
+            const messagesContainer = document.getElementById('chatMessages');
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+        
+        // New utility functions
+        // Web search toggle functionality
+        let webSearchEnabled = false;  // Default to false - users can enable if needed
+        let currentChatMode = 'normal'; // 'normal' or 'agh'
+        
+        function setChatMode(mode) {
+            currentChatMode = mode;
+            
+            // Update UI
+            const normalBtn = document.getElementById('normalMode');
+            const aghBtn = document.getElementById('aghMode');
+            const normalWelcome = document.getElementById('normalWelcome');
+            const aghWelcome = document.getElementById('aghWelcome');
+            const userInput = document.getElementById('userInput');
+            
+            if (mode === 'normal') {
+                normalBtn.classList.add('active');
+                aghBtn.classList.remove('active');
+                // Show normal welcome, hide AGH welcome
+                if (normalWelcome) normalWelcome.style.display = 'block';
+                if (aghWelcome) aghWelcome.style.display = 'none';
+                
+                // Check if profile is already set up
+                const profileSetup = localStorage.getItem('profileSetup');
+                if (!profileSetup || profileSetup === 'false') {
+                    // Show profile modal for new users
+                    if (userInput) {
+                        userInput.disabled = true;
+                        userInput.placeholder = "Please set up your profile first...";
+                    }
+                    setTimeout(() => showProfileModal(), 500); // Small delay for smooth transition
+                } else {
+                    if (userInput) {
+                        userInput.disabled = false;
+                        userInput.placeholder = "Ask me anything... I'll adapt my response to you!";
+                    }
+                }
+            } else {
+                aghBtn.classList.add('active');
+                normalBtn.classList.remove('active');
+                // Show AGH welcome, hide normal welcome  
+                if (normalWelcome) normalWelcome.style.display = 'none';
+                if (aghWelcome) aghWelcome.style.display = 'block';
+                
+                // Enable input for AGH mode
+                if (userInput) {
+                    userInput.disabled = false;
+                    userInput.placeholder = "Ask me about AGH regulations...";
+                }
+                
+                // Load AGH suggested questions
+                loadAGHSuggestedQuestions();
+            }
+            
+            // Update backend setting
+            fetch('/api/chat-mode', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ mode: mode })
+            }).then(response => {
+                if (response.ok) {
+                    console.log('Chat mode set to:', mode);
+                    // Show notification
+                    showModeNotification(mode);
+                } else {
+                    console.error('Failed to set chat mode');
+                }
+            }).catch(error => {
+                console.error('Error setting chat mode:', error);
+            });
+        }
+        
+        function showModeNotification(mode) {
+            const notification = document.createElement('div');
+            notification.className = 'mode-notification';
+            notification.innerHTML = mode === 'normal' 
+                ? '🧠 Normal Chat Mode: AI brain + web search when needed'
+                : '🔧 AGH Expert Mode: Specialized for university regulations and student affairs';
+            
+            notification.style.cssText = `
+                position: fixed;
+                top: 100px;
+                right: 30px;
+                background: linear-gradient(90deg, #4f46e5, #7c3aed);
+                color: white;
+                padding: 15px 20px;
+                border-radius: 10px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+                z-index: 1000;
+                font-size: 14px;
+                max-width: 300px;
+                animation: slideIn 0.3s ease;
+            `;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.animation = 'slideOut 0.3s ease';
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 300);
+            }, 3000);
+        }
+        
+        function toggleWebSearch() {
+            webSearchEnabled = !webSearchEnabled;
+            const toggle = document.getElementById('webSearchToggle');
+            const toggleSwitch = document.getElementById('toggleSwitch');
+            
+            if (webSearchEnabled) {
+                toggle.classList.add('active');
+                toggleSwitch.classList.add('active');
+            } else {
+                toggle.classList.remove('active');
+                toggleSwitch.classList.remove('active');
+            }
+            
+            // Update backend setting
+            fetch('/api/web-search-toggle', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ enabled: webSearchEnabled })
+            }).then(response => {
+                if (response.ok) {
+                    console.log('Web search toggled:', webSearchEnabled);
+                } else {
+                    console.error('Failed to toggle web search');
+                }
+            }).catch(error => {
+                console.error('Error toggling web search:', error);
+            });
+        }
+        
+        function clearChat() {
+            const messagesContainer = document.getElementById('chatMessages');
+            const normalWelcome = document.getElementById('normalWelcome');
+            const aghWelcome = document.getElementById('aghWelcome');
+            
+            // Remove all messages except welcome messages
+            const messages = messagesContainer.querySelectorAll('.message, .error-message');
+            messages.forEach(msg => msg.remove());
+            
+            // Show appropriate welcome message based on current mode
+            if (currentChatMode === 'normal') {
+                if (normalWelcome) normalWelcome.style.display = 'block';
+                if (aghWelcome) aghWelcome.style.display = 'none';
+            } else {
+                if (normalWelcome) normalWelcome.style.display = 'none';
+                if (aghWelcome) aghWelcome.style.display = 'block';
+            }
+            
+            // Clear message history
+            messageHistory = [];
+            
+            // Clear conversation memory on backend
+            fetch('/api/clear-conversation', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            }).then(response => {
+                if (response.ok) {
+                    console.log('Conversation memory cleared successfully');
+                } else {
+                    console.error('Failed to clear conversation memory');
+                }
+            }).catch(error => {
+                console.error('Error clearing conversation memory:', error);
+            });
+        }
+        
+        function refreshPage() {
+            // Force hard refresh to clear cache
+            window.location.reload(true);
+        }
+        
+        // Initialize web search status from backend
+        function initializeWebSearchStatus() {
+            fetch('/api/get-web-search-status')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        webSearchEnabled = data.web_search_enabled;
+                        updateWebSearchUI();
+                        console.log('Web search status initialized:', webSearchEnabled);
+                    } else {
+                        console.error('Failed to get web search status');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error loading web search status:', error);
+                });
+        }
+        
+        // Update web search UI elements
+        function updateWebSearchUI() {
+            const toggle = document.getElementById('webSearchToggle');
+            const toggleSwitch = document.getElementById('toggleSwitch');
+            
+            if (webSearchEnabled) {
+                toggle?.classList.add('active');
+                toggleSwitch?.classList.add('active');
+            } else {
+                toggle?.classList.remove('active');
+                toggleSwitch?.classList.remove('active');
+            }
+        }
+        
+        // Initialize chat mode from backend
+        function initializeChatMode() {
+            fetch('/api/get-chat-mode')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        setChatMode(data.chat_mode);
+                    } else {
+                        // Default to normal mode if API fails
+                        setChatMode('normal');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error loading chat mode:', error);
+                    // Default to normal mode if API fails
+                    setChatMode('normal');
+                });
+        }
+        
+        // Load AGH suggested questions
+        function loadAGHSuggestedQuestions() {
+            const suggestedQuestionsContainer = document.getElementById('agh-suggested-questions');
+            if (!suggestedQuestionsContainer) return;
+
+            fetch('/api/agh-suggested-questions')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success && data.questions && data.questions.length > 0) {
+                        suggestedQuestionsContainer.innerHTML = '';
+                        data.questions.forEach(q => {
+                            const button = document.createElement('button');
+                            button.className = 'suggested-question-btn';
+                            button.textContent = q.question;
+                            button.title = q.question_tr; // Turkish translation as tooltip
+                            button.onclick = () => {
+                                document.getElementById('messageInput').value = q.question;
+                                sendMessage();
+                            };
+                            suggestedQuestionsContainer.appendChild(button);
+                        });
+                        console.log('AGH suggested questions loaded:', data.questions.length);
+                    } else {
+                        console.log('No suggested questions available');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error loading AGH suggested questions:', error);
+                });
+        }
+        
+        // Profile Modal Functions
+        function showProfileModal() {
+            const modal = document.getElementById('profileModal');
+            if (modal) modal.style.display = 'flex';
+        }
+        
+        function hideProfileModal() {
+            const modal = document.getElementById('profileModal');
+            if (modal) modal.style.display = 'none';
+        }
+        
+        function saveProfile() {
+            const genderElement = document.getElementById('modalUserGender');
+            const toneElement = document.getElementById('modalUserTone');
+            
+            if (!genderElement || !toneElement) return;
+            
+            const gender = genderElement.value;
+            const tone = toneElement.value || 'friendly'; // Default to friendly
+            
+            if (gender && tone) {
+                // Save to sessionStorage (cleared on browser restart)
+                sessionStorage.setItem('user_gender', gender);
+                sessionStorage.setItem('user_tone', tone);
+                
+                fetch('/api/user-profile', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ gender: gender, tone: tone })
+                }).then(response => {
+                    if (response.ok) {
+                        console.log('User profile saved:', { gender, tone });
+                        hideProfileModal();
+                        // Enable input area
+                        const userInputElement = document.getElementById('userInput');
+                        if (userInputElement) {
+                            userInputElement.disabled = false;
+                            userInputElement.placeholder = `Ask me anything... I'll respond in ${tone} style!`;
+                        }
+                    }
+                }).catch(error => {
+                    console.error('Error saving profile:', error);
+                });
+            } else {
+                alert('Please select both gender and personality for personalized responses!');
+            }
+        }
+        
+        function skipProfile() {
+            hideProfileModal();
+            const userInput = document.getElementById('userInput');
+            if (userInput) {
+                userInput.disabled = false;
+                userInput.placeholder = "Ask me anything...";
+            }
+            // Set temporary values so modal doesn't show again this session
+            sessionStorage.setItem('user_gender', 'not_set');
+        }
+        
+        // Update user profile
+        function updateUserProfile() {
+            // This function is kept for backward compatibility but no longer used
+            // since we removed the header profile selectors
+            console.log('updateUserProfile called but not needed - using modal instead');
+        }
+
+        // Check if user profile exists and show modal if needed
+        function checkUserProfile() {
+            const currentMode = sessionStorage.getItem('chat_mode') || 'normal';
+            
+            // AGH Expert mode should never show profile modal
+            if (currentMode === 'agh') {
+                console.log('AGH Expert mode - no profile modal needed');
+                return true;
+            }
+            
+            // For Normal mode, clear any existing profile data on page load to force modal
+            sessionStorage.removeItem('user_gender');
+            
+            // Always show modal for normal mode (since we cleared the data)
+            if (currentMode === 'normal') {
+                console.log('Normal mode detected, showing profile modal...');
+                document.getElementById('profileModal').style.display = 'flex';
+                return false;
+            }
+            return true;
+        }
+
+        // Focus input and initialize mode on load
+        window.onload = function() {
+            const userInput = document.getElementById('userInput');
+            if (userInput) userInput.focus();
+            initializeChatMode();
+            initializeWebSearchStatus();
+            
+            // Check profile after a short delay to ensure DOM is ready
+            setTimeout(checkUserProfile, 100);
+        };
+        
+        // Check server status on load
+        fetch('/health')
+            .then(response => response.json())
+            .then(data => {
+                console.log('Server status:', data);
+            })
+            .catch(error => {
+                console.error('Server connection failed:', error);
+            });
+    </script>
+
+    <!-- Profile Setup Modal -->
+    <div id="profileModal" class="profile-modal" style="display: none;">
+        <div class="profile-modal-content">
+            <h3>👋 Welcome to RakıBot!</h3>
+            <p>To provide you with personalized responses, please tell me a bit about yourself:</p>
+            
+            <div class="profile-form">
+                <div class="form-group">
+                    <label for="modalUserGender">Gender:</label>
+                    <select id="modalUserGender" class="profile-input">
+                        <option value="">Select Gender</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="modalUserTone">Chat Personality:</label>
+                    <select id="modalUserTone" class="profile-input">
+                        <option value="friendly">😊 Normal (Standard Turkish/English)</option>
+                        <option value="trakya">🌊 Trakya (Trakya Dialect)</option>
+                    </select>
+                </div>
+                
+                <div class="form-actions">
+                    <button onclick="saveProfile()" class="save-btn">💬 Start Chatting!</button>
+                    <button onclick="skipProfile()" class="skip-btn">Skip for now</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
