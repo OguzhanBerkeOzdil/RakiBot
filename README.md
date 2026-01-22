@@ -100,19 +100,13 @@ Subsequently, Oğuzhan Berke Özdil extensively redesigned and enhanced the syst
 - **Oğuzhan Berke Özdil** - Lead Developer & Project Architect ([LinkedIn](https://www.linkedin.com/in/oguzhanberkeozdil/))
 - **Berkay Doruk** - Initial AGH RAG Implementation (original version)
 
-## Important Files
+## Configuration
 
-**Configuration Templates:**
-- `credentials.json.example` - Google Service Account template
-- `.env.example` - Environment variables and API keys template
+**Required Files (create from templates):**
+- `credentials.json` - Copy from `credentials.json.example` and add your Google Service Account credentials
+- `.env` - Copy from `.env.example` and configure your API keys
 
-**Excluded from Repository:**
-- `credentials.json` - Contains sensitive Google Service Account keys
-- `.env` - Contains API keys and environment configuration
-- `app.log` - Application log files
-- `agh_embedding_cache.npy` - Generated embedding cache
-- `web_cache/` - Web search cache directory
-- `__pycache__/` - Python bytecode cache
+See the example files for required configuration options.
 
 ## Content Policy
 
